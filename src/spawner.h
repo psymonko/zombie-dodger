@@ -8,8 +8,11 @@ class Spawner : public Actor {
 
   void UpdateActor(float deltaTime) override;
   void ActorInput(const struct InputState& state) override;
+  void SetIncrement(float increment) { mIncrement = increment; }
 
  private:
-  float timer;
+  float mTimer;
+  float mIncrement;
+  float mCurrentTime;
   std::random_device rd;
 };

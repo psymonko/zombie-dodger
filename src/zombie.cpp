@@ -12,7 +12,7 @@ Zombie::Zombie(Game* game)
   sc->SetTexture(game->GetTexture("assets/zombie.png"));
 
   //Vector2 startPos(0.0f, -390.0f);
-  Vector2 startPos(0.0f, -200.0f);
+  Vector2 startPos(0.0f, -390.0f);
   SetPosition(startPos);
   
   mMoveComponent = new MoveComponent(this);

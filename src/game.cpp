@@ -10,6 +10,7 @@
 #include "font.h"
 #include "uiscreen.h"
 #include "pausemenu.h"
+#include "gameovermenu.h"
 #include "spawner.h"
 #include <algorithm>
 #include <iostream>
@@ -146,9 +147,22 @@ void Game::RemoveZombie(Zombie* zombie) {
 
 
 void Game::LoadData() {
+  Actor* bg = new Actor(this);
+  bg->SetRotation(0.0f);
+  SpriteComponent* sc = new SpriteComponent(bg, 50);
+  sc->SetTexture(GetTexture("assets/bg.png"));
+  
   mPlayer = new Player(this);
-  mZombie = new Zombie(this);
   mSpawner = new Spawner(this);
+}
+
+void Game::RestartGame() {
+  for (auto zomb : mZombies) {
+    zomb->SetState(Actor::EDead);
+  }
+  mZombies.clear();
+  mPlayer->SetPosition(Vector2(0, 0));
+  mSpawner->SetIncrement(0.3f);
 }
 
 Texture* Game::GetTexture(const std::string& fileName) {
@@ -295,10 +309,11 @@ void Game::UpdateGame() {
       ui->Update(deltaTime);
     }
   }
-
+  
   auto iter = mUIStack.begin();
   while (iter != mUIStack.end()) {
     if ((*iter)->GetState() == UIScreen::EClosing) {
+      SDL_Log("Deleting UI: %p", *iter);
       delete *iter;
       iter = mUIStack.erase(iter);
     } else {

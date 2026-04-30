@@ -5,6 +5,8 @@
 #include "inputcomponent.h"
 #include "circlecomponent.h"
 #include "zombie.h"
+#include "gameovermenu.h"
+#include "pausemenu.h"
 
 Player::Player(Game* game)
   :Actor(game)
@@ -27,11 +29,12 @@ Player::Player(Game* game)
 
   SetPosition(startPos);
 }
+
 void Player::UpdateActor(float deltaTime) {
-  //SDL_Log("%f, %f", GetPosition().x, GetPosition().y);
   for (auto zombie : GetGame()->GetZombies()) {
     if (Intersect(*mCircle, *(zombie->GetCircle()))) {
-      SetState(EDead);
+      //SetState(EDead);
+      new GameOverMenu(GetGame());
       break;
     }
   }

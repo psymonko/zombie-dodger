@@ -39,6 +39,8 @@ class Game {
   void RemoveZombie(class Zombie* zombie);
   std::vector<class Zombie*>& GetZombies() { return mZombies; }
   
+  void RestartGame();
+  
  private:
   void ProcessInput();
   void UpdateGame();
@@ -47,6 +49,7 @@ class Game {
   void UnloadData();
   bool LoadShaders();
   void CreateSpriteVerts();
+
 
   class Shader* mSpriteShader;
   class VertexArray* mSpriteVerts;
@@ -63,8 +66,9 @@ class Game {
   SDL_GLContext mContext;
   Uint32 mTicksCount;
   bool mUpdatingActors;
+  bool mGameOverShown;
   GameState mGameState;
-
+  
   // game specific code
   class Player* mPlayer;
   class Zombie* mZombie;

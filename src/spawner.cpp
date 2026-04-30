@@ -6,23 +6,23 @@
 
 Spawner::Spawner(Game* game)
   :Actor(game)
-  ,timer(0.05f)
+  ,mTimer(0.05f)
+  ,mIncrement(0.3f)
+  ,mCurrentTime(0.0f)
 {
 }
 
 void Spawner::UpdateActor(float deltaTime) {
-  static float test = 0.0f;
-  static float inc = 0.3f;
-
-  test += inc * deltaTime;
-    if (test >= timer) {
-    test = 0.0f;
+  mCurrentTime += mIncrement * deltaTime;
+  mIncrement += 0.01f * deltaTime;
+  if (mCurrentTime >= mTimer) {
+    mCurrentTime = 0.0f;
     
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(-500.0f, 500.0f);
     float randX = dis(gen);
 
-    Vector2 pos = Vector2(randX, 0.0f);
+    Vector2 pos = Vector2(randX, -390.0f);
     
     Zombie* zomb = new Zombie(GetGame());
     zomb->SetPosition(pos);

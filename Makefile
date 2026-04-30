@@ -1,8 +1,22 @@
-SRCS = src/*.cpp
-LIBS = -lGLEW -lGL -lSOIL -lSDL2 -lSDL2_ttf
+CXX = g++
+CXXFLAGS = -g -std=c++17
+LDFLAGS = -lGLEW -lGL -lSOIL -lSDL2 -lSDL2_ttf
 
-b:
-	g++ -g -o build/main $(SRCS) $(LIBS)
+TARGET = build/main
+SRC = $(wildcard src/*.cpp)
+OBJ = $(SRC:.cpp=.o)
+
+
+b: $(TARGET) 
+
+$(TARGET): $(OBJ)
+	$(CXX) $(OBJ) -o $(TARGET) $(LDFLAGS)
+
+src/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 r: b
-	./build/main
+	./$(TARGET)
+
+clean:
+	rm -f src/*.o $(TARGET)
